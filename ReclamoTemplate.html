@@ -1,0 +1,66 @@
+<!--
+  Plantilla funcional: detalle de constancia de reclamo o requerimiento.
+  Se inserta como {{Cuerpo}} dentro de EmailTemplate.html.
+  Los marcadores {{...}} se reemplazan desde C#.
+-->
+<p style="margin:0 0 8px 0;">
+  Sr(a). <strong>{{NombreCliente}}</strong>, su solicitud fue registrada bajo el siguiente código de identificación:
+  <strong>{{NumeroCorrelativoReclamo}}</strong>.
+</p>
+
+<p style="margin:0 0 8px 0;">
+  A continuación se detalla la constancia de ingreso respectiva:
+</p>
+
+<ul style="margin-top:0;list-style-type:circle;">
+  <li>
+    <strong>FECHA Y HORA DE REGISTRO:</strong>
+    <ul style="list-style-type:circle;">
+      <li>{{FechaRegistro}}</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>IDENTIFICACIÓN DEL CONSUMIDOR RECLAMANTE:</strong>
+    <ul style="list-style-type:circle;">
+      <li>Nombre/Razón social/Denominación: {{NombreCompleto}}</li>
+      <li>Tipo - número de documento: {{TipoDocumento}} - {{NumeroDocumento}}</li>
+      <li>Celular/Teléfono: {{Celular}} / {{Telefono}}</li>
+      <li>Domicilio: {{Direccion}}</li>
+      <li>Correo electrónico: {{CorreoElectronico}}</li>
+      <li>Elección de la notificación de la respuesta: {{TipoNotificacionRespuesta}}</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>IDENTIFICACIÓN DEL BIEN CONTRATADO:</strong>
+    <ul style="list-style-type:circle;">
+      <li>Servicio: {{Servicio}}</li>
+      <li>Descripción: {{DescripcionOperacion}}</li>
+      <li>Número de referencia (MTCN): {{NumeroReferenciaOperacion}}</li>
+      <li>Moneda y monto reclamado: {{Moneda}} {{MontoReclamado}}</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>DETALLE DEL RECLAMO O REQUERIMIENTO:</strong>
+    <ul style="list-style-type:circle;">
+      <li>Tipo de solicitud: {{TipoSolicitud}}</li>
+      <li>Vía: {{ViaSolicitud}}</li>
+      <li>Motivo: {{Motivo}}</li>
+      <li>Detalle: {{DetalleSolicitud}}</li>
+      <li>Pedido: {{PedidoSolicitud}}</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>ACCIONES ADOPTADAS POR EL PROVEEDOR:</strong>
+    <ul style="list-style-type:circle;">
+      <li>
+        Su reclamo ha sido registrado. De acuerdo con la Resolución S.B.S. N.º 04036-2022,
+        el plazo de atención de reclamos y requerimientos es de 15 días hábiles. Estos plazos
+        pueden extenderse en los supuestos previstos por la normativa aplicable.
+      </li>
+    </ul>
+  </li>
+</ul>
