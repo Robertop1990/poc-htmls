@@ -1,0 +1,144 @@
+
+import { useRef } from 'react';
+import { useField } from 'formik';
+import { Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+
+const FormFileUploadCompact = ({
+    name,
+    onUpload,
+    loading = false,
+    disabled = false
+}) => {
+    const [field, meta, helpers] = useField(name);
+    const inputRef = useRef(null);
+
+    const selectedFile = field.value ?? null;
+
+    const handleSelect = (event) => {
+        const file = event.target.files?.[0];
+
+        if (!file) return;
+
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        const allowedExtensions = ['png', 'pdf', 'mp4'];
+
+        if (!allowedExtensions.includes(extension)) {
+            helpers.setValue(null);
+            helpers.setError('Solo se permiten archivos PNG, PDF y MP4.');
+            helpers.setTouched(true, false);
+            event.target.value = '';
+            return;
+        }
+
+        helpers.setValue(file);
+        helpers.setError(undefined);
+        helpers.setTouched(true, false);
+    };
+
+    const handleUpload = async () => {
+        if (!selectedFile || loading || disabled) return;
+
+        await onUpload(selectedFile);
+
+        helpers.setValue(null);
+        helpers.setError(undefined);
+        helpers.setTouched(false, false);
+
+        if (inputRef.current) {
+            inputRef.current.value = '';
+        }
+    };
+
+    return (
+        <div style={{ width: '100%', minWidth: 0 }}>
+            <input
+                ref={inputRef}
+                type="file"
+                hidden
+                accept=".png,.pdf,.mp4"
+                onChange={handleSelect}
+                disabled={disabled || loading}
+            />
+
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    width: '100%',
+                    minWidth: 0
+                }}
+            >
+                <button
+                    type="button"
+                    disabled={disabled || loading}
+                    onClick={() => inputRef.current?.click()}
+                    title={selectedFile?.name || 'Examinar'}
+                    style={{
+                        flex: '0 0 150px',
+                        width: 150,
+                        minWidth: 150,
+                        height: 56,
+                        padding: '0 12px',
+                        border: '1px solid #888',
+                        borderRadius: 8,
+                        backgroundColor: '#fff',
+                        color: '#222',
+                        fontSize: 16,
+                        fontWeight: 400,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        cursor: disabled || loading ? 'not-allowed' : 'pointer'
+                    }}
+                >
+                    {selectedFile?.name || 'Examinar...'}
+                </button>
+
+                <Button
+                    type="primary"
+                    icon={<UploadOutlined />}
+                    loading={loading}
+                    disabled={!selectedFile || disabled || loading}
+                    onClick={handleUpload}
+                    style={{
+                        flex: '0 0 48px',
+                        width: 48,
+                        height: 48,
+                        padding: 0,
+                        borderRadius: 8,
+                        backgroundColor: '#f5c400',
+                        borderColor: '#f5c400',
+                        color: '#222',
+                        boxShadow: 'none'
+                    }}
+                />
+
+                <span
+                    style={{
+                        flex: '1 1 auto',
+                        minWidth: 0,
+                        fontSize: 16,
+                        lineHeight: 1.6,
+                        color: '#777'
+                    }}
+                >
+                    Formatos permitidos: PNG, PDF y MP4
+                </span>
+            </div>
+
+            {meta.error && meta.touched && (
+                <div style={{
+                    marginTop: 8,
+                    color: '#dc3545',
+                    fontSize: 12
+                }}>
+                    {meta.error}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default FormFileUploadCompact;
