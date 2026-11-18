@@ -2,10 +2,7 @@
 import React, { useRef } from 'react';
 import { useField } from 'formik';
 import { Button } from 'antd';
-import {
-  UploadOutlined,
-  FileOutlined
-} from '@ant-design/icons';
+import { UploadOutlined, FileOutlined } from '@ant-design/icons';
 
 const FormFileUploadCompact = ({
   name,
@@ -21,13 +18,11 @@ const FormFileUploadCompact = ({
 
   const handleSelect = (event) => {
     const file = event.target.files?.[0];
-
     if (!file) return;
 
-    const allowedExtensions = ['png', 'pdf', 'mp4'];
     const extension = file.name.split('.').pop().toLowerCase();
 
-    if (!allowedExtensions.includes(extension)) {
+    if (!['png', 'pdf', 'mp4'].includes(extension)) {
       helpers.setValue(null);
       helpers.setError('Solo se permiten archivos PNG, PDF y MP4.');
       helpers.setTouched(true, false);
@@ -57,21 +52,24 @@ const FormFileUploadCompact = ({
   return (
     <div
       style={{
+        width: '100%',
+        height: 400,
+        boxSizing: 'border-box',
         border: '1px solid #d9d9d9',
         borderRadius: 4,
         padding: 16,
-        width: '100%',
-        boxSizing: 'border-box'
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#fff'
       }}
     >
-      {/* Documentos existentes y archivo seleccionado */}
+      {/* Área superior: documentos existentes y archivo seleccionado */}
       <div
         style={{
-          height: 230,
+          flex: 1,
+          minHeight: 0,
           overflowY: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          marginBottom: 12
+          padding: '8px 12px'
         }}
       >
         {files.map((file) => (
@@ -79,9 +77,9 @@ const FormFileUploadCompact = ({
             key={file.id}
             style={{
               display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              marginBottom: 8,
+              alignItems: 'flex-start',
+              gap: 10,
+              marginBottom: 12,
               overflowWrap: 'anywhere'
             }}
           >
@@ -101,69 +99,43 @@ const FormFileUploadCompact = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 8,
-              marginTop: 12,
-              padding: '8px 10px',
-              backgroundColor: '#f5f5f5',
-              borderRadius: 4
+              gap: 10,
+              padding: '10px 8px',
+              overflowWrap: 'anywhere'
             }}
           >
-            <FileOutlined />
-            <span
-              style={{
-                flex: 1,
-                minWidth: 0,
-                overflowWrap: 'anywhere'
-              }}
-            >
-              {selectedFile.name}
-            </span>
-
-            <Button
-              type="text"
-              danger
-              size="small"
-              disabled={loading}
-              onClick={() => {
-                helpers.setValue(null);
-                helpers.setError(undefined);
-                if (inputRef.current) {
-                  inputRef.current.value = '';
-                }
-              }}
-            >
-              Quitar
-            </Button>
+            <FileOutlined style={{ fontSize: 18 }} />
+            <span>{selectedFile.name}</span>
           </div>
         )}
       </div>
 
-      {/* Controles inferiores */}
+      {/* Controles inferiores: siempre en una sola fila */}
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".png,.pdf,.mp4"
+        hidden
+        onChange={handleSelect}
+      />
+
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1fr) 64px',
           gap: 12,
-          flexWrap: 'wrap'
+          alignItems: 'center'
         }}
       >
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".png,.pdf,.mp4"
-          hidden
-          onChange={handleSelect}
-        />
-
         <Button
           disabled={disabled || loading}
           onClick={() => inputRef.current?.click()}
           style={{
-            width: 180,
-            height: 44,
-            flexShrink: 0,
+            width: '100%',
+            height: 56,
             borderRadius: 6,
-            fontSize: 16
+            fontSize: 16,
+            fontWeight: 500
           }}
         >
           Examinar...
@@ -176,13 +148,13 @@ const FormFileUploadCompact = ({
           disabled={!selectedFile || disabled}
           onClick={handleUpload}
           style={{
-            width: 52,
-            height: 44,
-            flexShrink: 0,
+            width: 64,
+            height: 56,
             borderRadius: 6,
             backgroundColor: '#d6a500',
             borderColor: '#d6a500',
-            color: '#000'
+            color: '#000',
+            fontSize: 20
           }}
         />
       </div>
@@ -191,6 +163,7 @@ const FormFileUploadCompact = ({
         style={{
           marginTop: 12,
           fontSize: 15,
+          lineHeight: 1.6,
           color: '#777'
         }}
       >
@@ -198,13 +171,7 @@ const FormFileUploadCompact = ({
       </div>
 
       {meta.error && (
-        <div
-          style={{
-            marginTop: 8,
-            color: '#dc3545',
-            fontSize: 12
-          }}
-        >
+        <div style={{ marginTop: 6, color: '#dc3545', fontSize: 12 }}>
           {meta.error}
         </div>
       )}
