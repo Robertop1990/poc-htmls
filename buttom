@@ -1,8 +1,8 @@
 
-import React, { useRef } from "react";
-import { useField } from "formik";
-import { Button } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import React, { useRef } from 'react';
+import { Button } from 'antd';
+import { UploadOutlined, FileOutlined } from '@ant-design/icons';
+import { useField } from 'formik';
 
 const FormFileUploadCompact = ({
   name,
@@ -19,18 +19,20 @@ const FormFileUploadCompact = ({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const extension = file.name.split(".").pop().toLowerCase();
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    const allowed = ['png', 'pdf', 'mp4'];
 
-    if (!["png", "pdf", "mp4"].includes(extension)) {
+    if (!allowed.includes(extension)) {
       helpers.setValue(null);
-      helpers.setError("Solo se permiten archivos PNG, PDF y MP4.");
-      event.target.value = "";
+      helpers.setError('Solo se permiten archivos PNG, PDF y MP4.');
+      helpers.setTouched(true);
+      event.target.value = '';
       return;
     }
 
     helpers.setValue(file);
     helpers.setError(undefined);
-    helpers.setTouched(true, false);
+    helpers.setTouched(true);
   };
 
   const handleUpload = async () => {
@@ -40,54 +42,58 @@ const FormFileUploadCompact = ({
 
     helpers.setValue(null);
     helpers.setError(undefined);
-    helpers.setTouched(false, false);
+    helpers.setTouched(false);
 
     if (inputRef.current) {
-      inputRef.current.value = "";
+      inputRef.current.value = '';
     }
   };
 
   return (
-    <div style={{ padding: "12px 16px" }}>
-      {/* Nombre del archivo seleccionado */}
+    <div style={{ padding: '12px 16px' }}>
+      <input
+        ref={inputRef}
+        type="file"
+        hidden
+        accept=".png,.pdf,.mp4"
+        onChange={handleSelect}
+      />
+
       {selectedFile && (
         <div
           style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 7,
+            marginBottom: 12,
             fontSize: 13,
-            marginBottom: 10,
-            color: "#333",
-            overflowWrap: "anywhere",
+            color: '#333',
+            overflowWrap: 'anywhere',
           }}
         >
-          {selectedFile.name}
+          <FileOutlined />
+          <span>{selectedFile.name}</span>
         </div>
       )}
 
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           gap: 10,
-          flexWrap: "wrap",
+          width: '100%',
         }}
       >
-        <input
-          ref={inputRef}
-          type="file"
-          hidden
-          accept=".png,.pdf,.mp4"
-          onChange={handleSelect}
-        />
-
         <Button
-          onClick={() => inputRef.current?.click()}
           disabled={disabled || loading}
+          onClick={() => inputRef.current?.click()}
           style={{
-            height: 36,
-            minWidth: 150,
-            borderRadius: 4,
-            fontSize: 13,
-            padding: "0 14px",
+            flex: 1,
+            minWidth: 0,
+            height: 42,
+            fontSize: 14,
+            borderRadius: 5,
+            fontWeight: 500,
           }}
         >
           Examinar...
@@ -96,29 +102,35 @@ const FormFileUploadCompact = ({
         <Button
           type="primary"
           icon={<UploadOutlined />}
-          onClick={handleUpload}
           loading={loading}
-          disabled={!selectedFile || disabled || loading}
+          disabled={!selectedFile || disabled}
+          onClick={handleUpload}
           style={{
-            height: 36,
-            width: 42,
+            width: 46,
+            minWidth: 46,
+            height: 42,
             padding: 0,
-            borderRadius: 4,
-            backgroundColor: "#e5a900",
-            borderColor: "#e5a900",
-            color: "#111",
-            fontSize: 14,
+            borderRadius: 5,
+            backgroundColor: '#e5a900',
+            borderColor: '#e5a900',
+            color: '#000',
           }}
         />
-
       </div>
 
-      <div style={{ fontSize: 13, color: "#777", marginTop: 8 }}>
+      <div
+        style={{
+          marginTop: 12,
+          fontSize: 13,
+          lineHeight: '20px',
+          color: '#777',
+        }}
+      >
         Formatos permitidos: PNG, PDF y MP4
       </div>
 
-      {meta.error && (
-        <div style={{ color: "#dc3545", fontSize: 12, marginTop: 5 }}>
+      {meta.touched && meta.error && (
+        <div style={{ color: '#dc3545', fontSize: 12, marginTop: 5 }}>
           {meta.error}
         </div>
       )}
