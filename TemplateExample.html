@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <title>Notificación de escalación</title>
+    <title>Notificación por correo</title>
 </head>
 <body style="margin:0;padding:0;font-family:'Century Gothic',Arial,sans-serif;font-size:10pt;color:#222;">
 
@@ -12,58 +12,24 @@
            cellpadding="0"
            cellspacing="0"
            border="0"
-           style="width:100%;border-collapse:collapse;font-family:'Century Gothic',Arial,sans-serif;font-size:10pt;">
+           style="width:100%;border-collapse:collapse;font-family:'Century Gothic',Arial,sans-serif;">
 
         <tr>
-            <td width="5%"></td>
-            <td colspan="6" style="font-size:20pt;text-align:center;font-weight:bold;">
-                Notificación de escalación
-                <br />
-                (Nivel {{Nivel}})
-            </td>
-        </tr>
+            <td width="4%"></td>
+            <td colspan="6" style="font-size:10pt;font-family:'Century Gothic',Arial,sans-serif;">
 
-        <tr>
-            <td colspan="7">
-                <br />
-            </td>
-        </tr>
+                {{Saludo}}
 
-        <tr>
-            <td colspan="7">
-                <strong>Tipo de solicitud:</strong> {{TipoSolicitud}}
-                <br />
-                <strong>Código de solicitud:</strong> {{CodigoSolicitud}}
-                <br />
-                <strong>Área actual:</strong> {{AreaActual}}
-                <br />
-                <strong>Días restantes:</strong> {{DiasRestantes}}
-                <br />
-                <strong>Motivo:</strong> {{Motivo}}
-                <br />
-                <strong>Nombre del cliente:</strong> {{NombreCliente}}
-                <br />
-            </td>
-        </tr>
+                <br /><br />
 
-        <tr>
-            <td colspan="7">
-                <br />
-                Ingrese
-                <a href="{{UrlAtender}}">aquí</a>
-                para atender la solicitud.
-                <br />
-                <br />
-            </td>
-        </tr>
+                {{Cuerpo}}
 
-        <tr>
-            <td colspan="7">
+                <br /><br />
+
                 Atentamente,
                 <br />
                 Western Union Perú.
-                <br />
-                <br />
+                <br /><br />
 
                 <strong>IMPORTANTE</strong>
                 <br />
@@ -76,18 +42,17 @@
                 San Isidro o puede comunicarse al 01 640-9213.
 
                 Si su reclamo no es resuelto a su satisfacción, puede
-                acudir a la Superintendencia de Banca y Seguros y AFP
-                (SBS) o al Instituto Nacional de Defensa de la Competencia
-                y de la Protección de la Propiedad Intelectual (INDECOPI).
+                acudir a la Superintendencia de Banca y Seguros y
+                AFP(SBS) o al Instituto Nacional de Defensa de la
+                Competencia y de la Protección de la Propiedad
+                Intelectual (INDECOPI).
 
-                <br />
-                <br />
+                <br /><br />
 
                 <hr style="border:0;border-top:1px solid #000;margin:12px 0;" />
 
                 <strong>AVISO DE CONFIDENCIALIDAD</strong>
                 <br />
-
                 Este correo electrónico y cualquier archivo adjunto al
                 mismo son confidenciales y de uso exclusivo de la persona
                 o empresa a la cual han sido dirigidos.
@@ -105,8 +70,6 @@
 
             </td>
         </tr>
-
     </table>
-
 </body>
 </html>
